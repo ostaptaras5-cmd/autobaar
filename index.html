@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autobaar - Преміальна платформа для купівлі та продажу авто</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #080b12;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Шапка сайту */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(8, 11, 18, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        /* Футуристичний неоновий віджет часу */
+        .tech-clock-widget {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            padding: 6px 16px;
+            border-radius: 14px;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.1), inset 0 0 10px rgba(0, 242, 254, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .tech-clock-widget:hover {
+            border-color: rgba(0, 242, 254, 0.6);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+        }
+
+        .clock-date {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .clock-dots {
+            width: 4px;
+            height: 4px;
+            background: #00f2fe;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00f2fe;
+            animation: blink 1s infinite;
+        }
+
+        .clock-time {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #00f2fe;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .btn-sell-header {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #080b12;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-sell-header:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Головний блок (Hero Section) */
+        .hero {
+            position: relative;
+            min-height: calc(100vh - 85px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(rgba(8, 11, 18, 0.75), rgba(8, 11, 18, 0.85)), url('bmw.jpg') no-repeat center center/cover;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #080b12;
+            padding: 16px 35px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 16px 35px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #00f2fe;
+        }
+
+        /* Пасхалка для Юліанни */
+        .easter-egg-section {
+            padding: 100px 20px;
+            background: #05070c;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .love-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 105, 180, 0.25);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 0 35px rgba(255, 105, 180, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .love-heart {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            animation: pulse 1.8s infinite;
+        }
+
+        .love-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .love-subtext {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .tech-clock-widget { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка сайту -->
+    <header>
+        <a href="Autobaar.html" class="logo">Autobaar</a>
+        <div class="header-right">
+            <!-- Стильний віджет часу -->
+            <div class="tech-clock-widget">
+                <span class="clock-date" id="clockDate">--.--</span>
+                <span class="clock-dots"></span>
+                <span class="clock-time" id="clockTime">00:00:00</span>
+            </div>
+            <a href="sell.html" class="btn-sell-header">+ Продати авто</a>
+        </div>
+    </header>
+
+    <!-- Головний банер -->
+    <section class="hero">
+        <h1>Знайди своє ідеальне авто</h1>
+        <p>Преміальна платформа для купівлі та продажу автомобілів</p>
+        <div class="hero-buttons">
+            <a href="catalog.html" class="btn-primary">Купити авто</a>
+            <a href="sell.html" class="btn-secondary">Продати авто</a>
+        </div>
+    </section>
+
+    <!-- Пасхалка для Юліанни -->
+    <section class="easter-egg-section">
+        <div class="love-card">
+            <div class="love-heart">❤️</div>
+            <div class="love-text">Я кохаю тебе, Y!</div>
+            <div class="love-subtext">Цей сайт створений із натхненням та любов'ю до найкращої дівчини у світі — моєї Юліанни ✨</div>
+        </div>
+    </section>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const days = ['НД', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+            const dayName = days[now.getDay()];
+            
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('clockDate').innerText = `${dayName} ${day}.${month}`;
+            document.getElementById('clockTime').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продати авто - Autobaar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #080b12;
+            color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 50px;
+            background: rgba(8, 11, 18, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #00f2fe;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #00f2fe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #00f2fe;
+        }
+
+        select option {
+            background: #080b12;
+            color: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 130px;
+        }
+
+        /* Завантаження фото */
+        .photo-upload-box {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .photo-upload-box:hover {
+            border-color: #00f2fe;
+            background: rgba(0, 242, 254, 0.03);
+        }
+
+        .photo-upload-box p {
+            color: #94a3b8;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        /* Чекбокси */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+            accent-color: #00f2fe;
+            cursor: pointer;
+        }
+
+        /* Кнопка відправки */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #080b12;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            header { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="Autobaar.html" class="logo">Autobaar</a>
+        <a href="Autobaar.html" class="back-btn">← На головну</a>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Додати оголошення про продаж</h1>
+
+        <form onsubmit="handlePublish(event)">
+            
+            <!-- Секція 1: Фото -->
+            <div class="form-section">
+                <div class="section-title">1. Фотографії автомобіля</div>
+                <div class="photo-upload-box" onclick="document.getElementById('carPhotos').click()">
+                    <span style="font-size: 36px;">📷</span>
+                    <p><b>Натисніть сюди</b>, щоб додати фото з держномером чи техпаспортом</p>
+                    <input type="file" id="carPhotos" multiple accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Секція 2: Основна інформація -->
+            <div class="form-section">
+                <div class="section-title">2. Основна інформація</div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Марка авто *</label>
+                        <input type="text" placeholder="Наприклад: BMW, Audi, Infiniti" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Модель *</label>
+                        <input type="text" placeholder="Наприклад: Q50, A4, 530" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Рік випуску *</label>
+                        <select required>
+                            <option value="">Оберіть рік</option>
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                            <option value="2015">2015</option>
+                            <option value="2010">2010</option>
+                            <option value="2005">2005</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Пробіг (тис. км) *</label>
+                        <input type="number" placeholder="Наприклад: 85" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Тип двигуна</label>
+                        <select>
+                            <option>Бензин</option>
+                            <option>Дизель</option>
+                            <option>Гібрид</option>
+                            <option>Електро</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Коробка передач</label>
+                        <select>
+                            <option>Автомат</option>
+                            <option>Механіка</option>
+                            <option>Робот</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="isOwner" checked>
+                    <label for="isOwner" style="margin-bottom:0; color:#fff; cursor:pointer;">Я власник цього авто</label>
+                </div>
+            </div>
+
+            <!-- Секція 3: Опис та Вартість -->
+            <div class="form-section">
+                <div class="section-title">3. Опис та ціна</div>
+
+                <div class="form-group full">
+                    <label>Детальний опис автомобіля *</label>
+                    <textarea placeholder="Розкажіть про стан авто, комплектацію, що робилося по ТО..." required></textarea>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ціна ($) *</label>
+                        <input type="number" placeholder="Наприклад: 18500" required>
+                    </div>
+                    
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="bargain">
+                            <label for="bargain" style="margin-bottom:0; color:#fff; cursor:pointer;">Можливий торг</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Опублікувати оголошення</button>
+
+        </form>
+    </div>
+
+    <script>
+        function handlePublish(event) {
+            event.preventDefault();
+            alert('Оголошення успішно створено та додано до бази Autobaar!');
+            window.location.href = 'catalog.html';
+        }
+    </script>
+</body>
+</html>

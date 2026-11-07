@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Деталі автомобіля - Autobaar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #080b12;
+            color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 50px;
+            background: rgba(8, 11, 18, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #00f2fe;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Збільшений слайдер */
+        .big-slider {
+            position: relative;
+            width: 100%;
+            height: 580px;
+            background: #000000;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            cursor: zoom-in;
+        }
+
+        .car-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+            background-color: #05070c;
+        }
+
+        .car-img.active {
+            display: block;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(8, 11, 18, 0.75);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .slider-btn:hover {
+            background: rgba(0, 242, 254, 0.9);
+            color: #080b12;
+            border-color: transparent;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        .photo-counter {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            padding: 8px 18px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 5;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .zoom-hint {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(5px);
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Опис авто */
+        .car-info-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
+        }
+
+        .car-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .car-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00f2fe;
+            margin-bottom: 20px;
+        }
+
+        .car-specs {
+            display: flex;
+            gap: 30px;
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 0;
+        }
+
+        .description-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .car-description {
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            white-space: pre-line;
+        }
+
+        /* Повноекранний режим (Lightbox) */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-img {
+            max-width: 95%;
+            max-height: 92vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        .close-fullscreen {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            font-size: 45px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.2s;
+        }
+
+        .close-fullscreen:hover {
+            color: #00f2fe;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; }
+            .big-slider { height: 340px; }
+            .car-specs { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="catalog.html" class="logo">Autobaar</a>
+        <a href="catalog.html" class="back-btn">← Назад до каталогу</a>
+    </header>
+
+    <div class="container">
+        <!-- Збільшений слайдер -->
+        <div class="big-slider" id="car-slider" onclick="openFullscreen()">
+            <div class="zoom-hint">🔍 Натисніть для повноекранного перегляду</div>
+            <button class="slider-btn prev-btn" onclick="event.stopPropagation(); changeSlide(-1)">❮</button>
+            <button class="slider-btn next-btn" onclick="event.stopPropagation(); changeSlide(1)">❯</button>
+            <div class="photo-counter"><span id="current-index">1</span>/10</div>
+        </div>
+
+        <div class="car-info-box">
+            <h1 class="car-title" id="car-title">Назва авто</h1>
+            <div class="car-price" id="car-price">$0</div>
+            <div class="car-specs" id="car-specs"></div>
+            
+            <div class="description-title">Опис продавця</div>
+            <div class="car-description" id="car-desc">Завантаження...</div>
+        </div>
+    </div>
+
+    <!-- Модальне вікно для повноекранного перегляду -->
+    <div id="fullscreenModal" class="fullscreen-modal" onclick="closeFullscreen()">
+        <span class="close-fullscreen">&times;</span>
+        <img class="fullscreen-img" id="fullscreenImg">
+    </div>
+
+    <script>
+        const carsData = {
+            infiniti: {
+                title: "Infiniti Q50S 3.0tt",
+                price: "$18,200",
+                specs: "<span>📅 2018 р.</span><span>⚙️ 83,000 км</span><span>🚀 3.0 Twin-Turbo</span>",
+                startImgIndex: 1,
+                desc: `Продаю власний Infiniti Q50 Red Sport 405. Автомобіль у відмінному технічному стані, вкладений не потребує. Усе робилося для себе, обслуговування проводилося вчасно та без економії.
+
++ Проведено повне ТО.
++ Виконано капітальний ремонт двигуна, після якого автомобіль проїхав лише 7 тис. км.
++ Двигун працює ідеально, без сторонніх звуків і зауважень.
+
+Оригінальний Red Sport 405, не переробка.
+
+Додатково встановлено:
+- радіатор охолодження турбін DMP;
+- Blow-Off;
+- маслоуловлювач (Oil Catch Can);
+- Downpipe DMP.
+
+Автомобіль повністю готовий до експлуатації, не потребує жодних вкладень. Сів і поїхав.`
+            },
+            audi: {
+                title: "Audi A4 B9 Quattro",
+                price: "$19,000",
+                specs: "<span>📅 2018 р.</span><span>⚙️ 156,000 км</span><span>🚀 2.0 TFSI</span>",
+                startImgIndex: 11,
+                desc: `Audi A4 B9 2.0 TFSI Quattro 
+Premium Plus комплектація 
+2018 тех паспорт 
+S line 
+Салон S line 
+Full LED фари
+Приборна панель Virtual Cockpit 
+Преміальна аудіосистема Bang Olufsen 
+Чорна стеля 
+Підігрів керма 
+Підігрів всіх сидінь 
+3-зонний клімат контроль 
+Безключовий доступ 
+Вибори режими їзди 
+Apple Car Play 
+Виконане преміальне тонування 
+Антіхром 
+Встановлена нова зимова гума 
+
+Замінена повністю система охолодження 
+Автомобіль без нюансів та не потребує вкладання, готовий на перевірки`
+            },
+            mazda: {
+                title: "Mazda 6",
+                price: "$4,750",
+                specs: "<span>📅 2007 р.</span><span>⚙️ 253,000 км</span><span>🚀 2.0 Бензин</span>",
+                startImgIndex: 21,
+                desc: `Авто потребує кузовного ремонту. Царапіни на кузові, розбита ліва задня фара, задній спойлер, тріщина на передньому бампері та крилі. Машина куплялась для першого водіння - з такими дефектами, розраховувала що відремонтую, але війна внесла свої корективи. 
+
+По їзді, по салону машиною довольна, також по обслуговуванню машина надійна, коробка автомат без ривків. По обслуговуванню заміна мастила і якісь ремонти обслуговувалась на СТО, всі чеки збережені. 
+
+Авто потребує чоловічих рук щоб привести до ладу, якщо зрівнювати при покупці з іншими авто Мазда цього року, це було знайдене єдине авто де не гниле дніще і гарний автомат, єдине дефекти в кузові.`
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const carKey = urlParams.get('car') || 'infiniti';
+        const car = carsData[carKey];
+
+        document.getElementById('car-title').innerText = car.title;
+        document.getElementById('car-price').innerText = car.price;
+        document.getElementById('car-specs').innerHTML = car.specs;
+        document.getElementById('car-desc').innerText = car.desc;
+        document.title = car.title + " - Autobaar";
+
+        const sliderContainer = document.getElementById('car-slider');
+        const counterElement = document.getElementById('current-index');
+        
+        for (let i = 0; i < 10; i++) {
+            const imgIndex = car.startImgIndex + i;
+            const img = document.createElement('img');
+            img.src = imgIndex + '.jpg.png';
+            img.className = 'car-img' + (i === 0 ? ' active' : '');
+            img.alt = car.title + ' фото ' + (i + 1);
+            sliderContainer.insertBefore(img, counterElement.parentNode);
+        }
+
+        let currentSlide = 0;
+        const images = sliderContainer.querySelectorAll('.car-img');
+
+        function changeSlide(step) {
+            images[currentSlide].classList.remove('active');
+            currentSlide += step;
+            
+            if (currentSlide >= images.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = images.length - 1;
+            
+            images[currentSlide].classList.add('active');
+            counterElement.innerText = currentSlide + 1;
+        }
+
+        function openFullscreen() {
+            const activeImg = images[currentSlide];
+            const modal = document.getElementById('fullscreenModal');
+            const fullscreenImg = document.getElementById('fullscreenImg');
+            fullscreenImg.src = activeImg.src;
+            modal.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            document.getElementById('fullscreenModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
